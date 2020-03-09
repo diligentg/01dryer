@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 const Home = ()=> import('../views/home/Home')
+const DryerUse = ()=> import('../views/home/DryerUse')
 const Bill = ()=> import('../views/bill/Bill')
 const Balance = ()=> import('../views/balance/Balance')
 const Fix = ()=> import('../views/fix/Fix')
@@ -30,6 +31,13 @@ const routes=[
     component:Home,
     meta:{
       title:'首页'
+    }
+  },
+  {
+    path:'/dryerUse',
+    component:DryerUse,
+    meta:{
+      title:'烘干机使用'
     }
   },
   {

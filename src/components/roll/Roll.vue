@@ -1,9 +1,10 @@
 <template>
   <div id= "parent">
     <div class="content">
-      <transition name="slide"><img :src="dataList[currentIndex]" alt=""/></transition>
-<!--          <div class="imgDiv" v-for="(img,index) in dataList" v-show="index===currentIndex" :key="index">-->
-<!--          </div>-->
+<!--      <transition name="slide"><img :src="dataList[currentIndex]" alt=""/></transition>-->
+          <div class="imgDiv" v-for="(img,index) in dataList" :key="index">
+            <transition name="slide"><img :src="img" alt="" v-show="index===currentIndex" ></transition>
+          </div>
       <ul class="lfBtn">
         <li @click="gotoPage(prevIndex)" id="left">&lt;</li>
         <li @click="gotoPage(nextIndex)" id="right">&gt;</li>
@@ -25,7 +26,7 @@
     export default {
         name: "Roll",
       created(){
-          this.runInv();
+          // this.runInv();
       },
       beforeDestroy(){
         clearInterval(this.timer)
@@ -83,6 +84,11 @@
     height: 15em;
     width: 100%;
   }
+  .imgDiv{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
   img{
     height: 100%;
     width: 100%;
@@ -112,9 +118,18 @@
     left: 100%;
     margin-left: -45px;
   }
+  #parent{
+    position: relative;
+  }
+  #bottomItem{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+  }
   #bottomItem ul{
     display: flex;
-    justify-content:center
+    justify-content:center;
+    background-color: rgba(0, 0, 0, 0.26);
   }
   #bottomItem li{
     text-align: center;
@@ -125,6 +140,7 @@
   }
   .current{
     background-color: #cf4317;
+    color: white;
   }
   .slide-enter-active{
     transition: all .3s ease-out;
@@ -137,7 +153,7 @@
   /*  transition: all .3s ease;*/
   /*  opacity: 0;*/
   /*}*/
-  /*.slide-leave-to{*/
-  /*  transform: translateX(-100%);*/
-  /*}*/
+  .slide-leave-to{
+    transform: translateX(-100%);
+  }
 </style>
