@@ -7,6 +7,7 @@
 </template>
 
 <script>
+
     export default {
         name: "ClickConnection"
     }
@@ -14,14 +15,25 @@
 
 <style scoped>
   #clickCon{
+    position: absolute;
     height: 16em;
     width: 16em;
     background-image: linear-gradient(to right, #CC5D33 0%, #CC3533 100%);
-    position: absolute;
-    top: 60%;
+    top: 31em;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
+  }
+  #clickCon:active{
+    position: absolute;
+    height: 14em;
+    width: 14em;
+    background-image: linear-gradient(to right, #CC5D33 0%, #CC3533 100%);
+    top: 31em;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    transition:all .2s ease;
   }
 .connection{
   position: absolute;

@@ -65,8 +65,8 @@
     transform: translate(-50%, -50%);
 }
   .backImg{
-    width: 25%;
-    height: 9%;
+    width: 4.5em;
+    height: 4.5em;
     top: 50%;
     left: 50%;
     transform: translate(-50%,30%);

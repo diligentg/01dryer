@@ -88,7 +88,8 @@ const router = new VueRouter({
   //设置url和组件的映射
   routes,
   //将浏览器的url的哈希模式改为history模式
-  mode:'history'
+  // mode:'history'
+  mode:'hash'
 });
 
 

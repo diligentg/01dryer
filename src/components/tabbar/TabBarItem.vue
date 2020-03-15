@@ -21,8 +21,8 @@
 <style scoped>
   #bar-item{
     position: relative;
-    height: 49px;
-    font-size: 18px;
+    height: 3em;
+    font-size: 1.15em;
     border-bottom:1px solid #cecece;
   }
 

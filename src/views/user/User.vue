@@ -25,7 +25,7 @@
         },
       data(){
         return{
-          imgUrl:require('../../assets/img/简历.jpg'),
+          imgUrl:require('../../assets/img/resume.jpg'),
           nickName:'银河',
           sex:'男',
           dorm:'清雅居B2',
@@ -73,7 +73,7 @@
     /*pointer-events: none;*/
   }
   .userText{
-    font-size: 16px;
+    font-size: 1.15em;
     position: absolute;
     top: 50%;
     left: 5%;

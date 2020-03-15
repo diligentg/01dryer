@@ -26,7 +26,7 @@
     export default {
         name: "Roll",
       created(){
-          // this.runInv();
+          this.runInv();
       },
       beforeDestroy(){
         clearInterval(this.timer)
@@ -45,7 +45,7 @@
         runInv() {
           this.timer = setInterval(() => {
             this.gotoPage(this.nextIndex);
-            console.log(this.timer)
+            // console.log(this.timer)
           }, 5500);
         }
       },
@@ -142,17 +142,13 @@
     background-color: #cf4317;
     color: white;
   }
-  .slide-enter-active{
+  .slide-enter-active,.slide-leave-active{
     transition: all .3s ease-out;
   }
   .slide-enter{
     opacity: 0;
     transform: translateX(100%);
   }
-  /*.slide-leave-active{*/
-  /*  transition: all .3s ease;*/
-  /*  opacity: 0;*/
-  /*}*/
   .slide-leave-to{
     transform: translateX(-100%);
   }

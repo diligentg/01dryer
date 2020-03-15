@@ -23,7 +23,7 @@
       },
       data(){
         return{
-          asideImg:require('../../assets/img/简历.jpg')
+          asideImg:require('../../assets/img/resume.jpg')
         }
       },
       created() {
@@ -65,7 +65,7 @@ img{
   top: 68%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 18px;
+  font-size: 1.2em;
 }
 /*侧边栏item垂直居中*/
 .tab-bar-item{
