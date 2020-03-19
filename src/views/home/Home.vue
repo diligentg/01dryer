@@ -4,28 +4,41 @@
     <!--    轮播-->
     <Roll></Roll>
     <!--    烘干机连接-->
-    <Connection id="clickCon" @click.native="searchDevices('c')"></Connection>
-    <div>
-      未配对蓝牙设备
-      <ul id="list1">
-        <!--        这里的Id01[index]想了很久，作为难点，思维一直局限在遍历对象数组在操作数组-->
-        <li v-for="(item,index) in list01" :key="index" @click="creatConnection(Id01[index])">{{item}}</li>
-      </ul>
+    <transition name="btnDisappear">
+      <Connection id="clickCon" v-show="isShow" @click.native="searchDevices()"></Connection>
+    </transition>
+
+    <div class="unCon" v-show="!isShow">
+      <div class="ti1">
+        未配对蓝牙设备
+      </div>
+<!--      <ul id="list1">-->
+        <transition-group id="list1"  tag="ul" name="li1Appear">
+          <!--        这里的Id01[index]想了很久，作为难点1，思维一直局限在遍历对象数组在操作数组-->
+          <li class="li1" v-for="(item,index) in list01" :key="item" @click="creatConnection(Id01[index])"><pre>{{item}}</pre><pre class="pre1">|&nbsp点击连接&nbsp&nbsp</pre></li>
+        </transition-group>
+<!--      </ul>-->
     </div>
-    <div>
-      已配对蓝牙设备
-      <ul id="list2">
-        <li v-for="(item,index) in list02" :key="index">{{item}}</li>
-      </ul>
+
+    <div class="unCon" v-show="!isShow">
+      <div class="ti1">
+        已配对蓝牙设备
+      </div>
+<!--      <ul id="list2">-->
+        <transition-group id="list2"  tag="ul" name="li1Appear">
+          <li class="li2" v-for="(item,index) in list02" :key="item" @click="dryerUse"><pre>{{item}}</pre><pre class="pre1">|&nbsp点击使用&nbsp&nbsp</pre></li>
+        </transition-group>
+<!--      </ul>-->
+
+    </div>
+
+    <div class="recon">
+      <button class="reconBtn" @click="recon" v-show="!isShow">返回</button>
     </div>
   </div>
 </template>
 
 <script>
-  function fff() {
-    alert('123')
-  }
-
   import Header from '../../components/header/Header'
   import Roll from "../../components/roll/Roll";
   import Connection from '../../components/clickConnection/ClickConnection'
@@ -42,11 +55,13 @@
         list02:[],
         Id01:[],
         Id02:[],
+        isShow:true,
       }
     },
     methods: {
-      searchDevices(address) {
+      searchDevices() {
         let that=this;
+        that.isShow=false;
         let main = plus.android.runtimeMainActivity();
 
         let BluetoothAdapter = plus.android.importClass("android.bluetooth.BluetoothAdapter");
@@ -58,12 +73,8 @@
         let IntentFilter = plus.android.importClass('android.content.IntentFilter');
         let filter = new IntentFilter();
 
-        var on = null;
-        var un = null;
         let vlist1 = document.getElementById('list1'); //注册容器用来显示未配对设备
         vlist1.innerHTML = ''; //清空容器
-        // let vlist2 = document.getElementById('list2'); //注册容器用来显示配对设备
-        // vlist2.innerHTML = ''; //清空容器
         let resultDiv = document.getElementById('btn');
         BAdapter.startDiscovery(); //开启搜索
         console.log("开始搜索设备");
@@ -81,17 +92,25 @@
               if (BleDevice.getBondState() === bdevice.BOND_NONE) {
                 console.log("未配对蓝牙设备：" + BleDevice.getName() + '    ' + BleDevice.getAddress());
                 //参数如果跟取得的mac地址一样就配对
-                  if(BleDevice.getName() !== on ){ //判断防止重复添加
-                    on = BleDevice.getName();
-                    that.list01.push(on);
+                  if(BleDevice.getName() != null ){ //判断防止重复添加
+                    that.list01.push(BleDevice.getName());
                     that.Id01.push(BleDevice.getAddress());
                   }
               }else{
-                if(BleDevice.getName() !== un ){ //判断防止重复添加
-                  console.log("已配对蓝牙设备：" + BleDevice.getName() + '    ' + BleDevice.getAddress());
-                  un = BleDevice.getName();
-                  that.list02.push(un);
-                  that.Id02.push(BleDevice.getAddress());
+                if(BleDevice.getName() != null){ //根据Id02是否为空两个情况，防止重复添加，难点3
+                  if (that.Id02.length === 0){
+                    console.log("已配对蓝牙设备：" + BleDevice.getName() + '    ' + BleDevice.getAddress());
+                    that.list02.push(BleDevice.getName());
+                    that.Id02.push(BleDevice.getAddress());
+                  }else {
+                    for (let i = 0; i <that.Id02.length ; i++) {
+                      if (BleDevice.getAddress()!==that.Id02[i]){
+                        console.log("已配对蓝牙设备：" + BleDevice.getName() + '    ' + BleDevice.getAddress());
+                        that.list02.push(BleDevice.getName());
+                        that.Id02.push(BleDevice.getAddress());
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -114,13 +133,14 @@
             alert('蓝牙已开启');
           }else{
             alert('蓝牙未开启');
+            that.isShow=true;
           }
         }else{
           //    BAdapter.disable();
           // alert('蓝牙关闭');
         }
       },
-      //分离出田添加设备的操作
+      //分离出添加设备的操作,难点2
       creatConnection(addr){
         let that = this;
         console.log(addr);
@@ -150,11 +170,13 @@
                 console.log("未配对蓝牙设备：" + BleDevice.getName() + '    ' + BleDevice.getAddress());
                 //参数如果跟取得的mac地址一样就配对
                 if (addr === BleDevice.getAddress()) {
-                  if (BleDevice.createBond()) { //配对命令.createBond()
+                  if (BleDevice.createBond()) {
+                    //配对命令.createBond()
                     console.log("配对成功");
                     that.list02.push(BleDevice.getName());
                     that.Id02.push(BleDevice.getAddress());
                     alert('添加成功');
+                    // that.$router.replace('/dryerUse');
                   }
                 }
               }
@@ -170,11 +192,94 @@
         filter.addAction(BAdapter.ACTION_DISCOVERY_FINISHED);
         filter.addAction(BAdapter.ACTION_STATE_CHANGED);
         main.registerReceiver(receiver, filter); //注册监听
+      },
+      recon(){
+        this.isShow=!this.isShow;
+      },
+      dryerUse(){
+        this.$router.push('/dryerUse');
       }
     }
   }
 </script>
 
 <style scoped>
+ ul,li{
+    list-style:none;
+    padding:0;
+    margin:0;
+  }
+ .unCon,.recon{
+   text-align: center;
+ }
+ .ti1{
+   margin-bottom: 15px;
+   margin-top: 15px;
+   font-size: 1.3em;
+ }
+ .li1,.li2{
+   /*background-image: linear-gradient(to left, #ff9569 0%, #e92758 100%);*/
+   background-image: linear-gradient(to right, #CC5D33 0%, #CC3533 100%);
+   color: white;
+   border-radius: 1em;
+   height: 2em;
+   font-size: 1.2em;
+   margin: 0.3em auto 0.6em auto;
+   width: 18em;
+   line-height: 0.45em;
+ }
+ .li2{
+   background-image: linear-gradient(to right, #FB7C97 0%, #FF9968 100%);
+ }
+ .reconBtn{
+   height: 3em;
+   width: 3em;
+   border-radius: 50%;
+   font-size: 1.2em;
+   background-image: linear-gradient(to right, #CC5D33 0%, #CC3533 100%);
+   border: none;
+   color: white;
+ }
+  .btnDisappear-enter-active {
+    animation: bounce-in .5s;
+    position: absolute;
+  }
+  .btnDisappear-leave-active {
+    animation: bounce-in .5s reverse;
+    position: absolute;
+  }
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  .li1Appear-enter,.li1Appear-leave-to{
+    opacity: 0;
+    transform: translateX(80px);
+  }
 
+  .li1Appear-enter-active,.li1Appear-leave-active{
+    transition: all 0.6s ease;
+  }
+
+  /*v-move 和 v-leave-active 配合使用，能够实现列表后续的元素，渐渐地漂上来的效果 */
+
+  .li1Appear-move{
+    transition: transform 0.6s ;
+  }
+  .li1Appear-leave-active {
+    position: absolute;
+  }
+  pre{
+    display: inline-block;
+  }
+  .pre1{
+    float: right;
+  }
 </style>

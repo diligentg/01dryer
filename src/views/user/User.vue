@@ -110,7 +110,8 @@
     font-size: 18px;
     background-image: linear-gradient(to right, #E1491E 0%, #CC3433 100%);
     padding: 12px 30px 12px 30px;
-    border: none
+    border: none;
+    outline: none;
   }
   .saveBtn:active,.backBtn:active{
     border-radius: 28px;

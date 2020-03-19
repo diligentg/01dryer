@@ -15,7 +15,7 @@ export default {
   @import "./assets/css/base.css";
   .skip-enter-active{
     will-change: transform;
-    transition: all .3s;
+    transition: all .3s ;
   }
   .skip-enter {
     opacity: 0;
