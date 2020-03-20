@@ -25,7 +25,7 @@
         },
       data(){
         return{
-          imgUrl:require('../../assets/img/resume.jpg'),
+          imgUrl:require('../../assets/img/headimg.jpg'),
           nickName:'银河',
           sex:'男',
           dorm:'清雅居B2',

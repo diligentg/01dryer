@@ -104,12 +104,16 @@
     font-weight: bold;
     font-family: Simsun;
     font-size: 30px;
-    border: 1px solid #fff;
+    /*border: 1px solid #fff;*/
     border-radius: 50%;
-    opacity: 0.3;
+    /*opacity: 0.3;*/
     cursor: pointer;
     color: #fff;
-    background: black;
+    /*background: black;*/
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select:none;
   }
   #left{
     left: 5px;
@@ -120,6 +124,9 @@
   }
   #parent{
     position: relative;
+    z-index: 10;
+    border-top: 5px solid white;
+    border-bottom: 5px solid white;
   }
   #bottomItem{
     position: absolute;

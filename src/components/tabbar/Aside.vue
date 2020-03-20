@@ -23,7 +23,7 @@
       },
       data(){
         return{
-          asideImg:require('../../assets/img/resume.jpg')
+          asideImg:require('../../assets/img/headimg.jpg')
         }
       },
       created() {

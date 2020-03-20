@@ -13,6 +13,10 @@ export default {
 
 <style>
   @import "./assets/css/base.css";
+  #app{
+    height: 100%;
+    width: 100%;
+  }
   .skip-enter-active{
     will-change: transform;
     transition: all .3s ;

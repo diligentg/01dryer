@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div style="height: 100% ;width: 100%;text-align: center">
+    <transition name="outer">
+      <div class="outer" v-show="isShow"></div>
+    </transition>
     <Header></Header>
     <!--    轮播-->
     <Roll></Roll>
@@ -44,7 +47,7 @@
     components: {
       Roll,
       Header,
-      Connection
+      Connection,
     },
     data() {
       return {
@@ -201,6 +204,13 @@
 </script>
 
 <style scoped>
+  .outer{
+    background-image: linear-gradient(to right, #CC5D33 0%, #CC3533 100%);
+    height: 100%;
+    width: 100%;
+    top:0;
+    position: absolute;
+  }
   ul,li{
     list-style:none;
     padding:0;
@@ -237,6 +247,16 @@
     border: none;
     color: white;
   }
+
+  .outer-enter-active {
+    animation: bounce-in .55s ;
+    position: absolute;
+  }
+  .outer-leave-active {
+    animation: bounce-in .55s reverse;
+    position: absolute;
+  }
+
   .btnDisappear-enter-active {
     animation: bounce-in .5s;
     position: absolute;

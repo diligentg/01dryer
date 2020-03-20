@@ -46,6 +46,7 @@
     height: 3.7em;
     font-size: 1.3em;
     align-items: center;
+    z-index: 10;
   }
   img{
     height: .9em;
@@ -68,8 +69,7 @@
     width: 4.5em;
     height: 4.5em;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%,30%);
+    transform: translate(0%,30%);
     border-radius: 50%;
     position: relative;
   }
