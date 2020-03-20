@@ -1,8 +1,10 @@
 <template>
-  <div id="clickCon">
-    <div class="connection">
+  <div class="shell">
+    <button class="clickCon">
+      <!--    <span class="connection">-->
       点击使用
-    </div>
+      <!--    </span>-->
+    </button>
   </div>
 </template>
 
@@ -14,24 +16,21 @@
 </script>
 
 <style scoped>
-  #clickCon{
-    position: absolute;
-    height: 16em;
-    width: 16em;
+  .shell{
+    text-align: center;
+    position: relative;
+  }
+  .clickCon{
+    position: relative;
+    height: 11em;
+    width: 11em;
     background-image: linear-gradient(to right, #CC5D33 0%, #CC3533 100%);
-    top: 25em;
-    left: 4.25em;
-    /*top: 60%;*/
-    /*left: 15.7%;*/
-    /*transform: translate(-50%, -50%);*/
+    font-size: 1.5em;
+    border: 5px solid white;
+    outline: none;
+    top: 4em;
+    font-family: inherit;
+    color: white;
     border-radius: 50%;
   }
-.connection{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 1.5rem;
-  color: white;
-}
 </style>

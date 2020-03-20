@@ -7,7 +7,9 @@
       <input class="mimi" type="text" value=":">
       <input class="second" type="text" v-model="second" maxlength="2" max="59" min="0">
     </div>
-    <div id="dd"  class="fire" :disabled="isOnce" @click="timeBegin">开始</div>
+    <div class="fire-center">
+      <button  class="fire" :disabled="isOnce" @click="timeBegin">开始</button>
+    </div>
   </div>
 </template>
 
@@ -24,7 +26,7 @@
         minute:'00',
         second:'00',
         zero:0,
-        isOnce:false
+        isOnce:false,
       }
     },
     methods:{
@@ -36,6 +38,7 @@
           alert('请选择时间');
         }
         else {
+          this.isOnce=!this.isOnce;
           this.inUseMsg='正在使用中';
           //倒计时
           let timer=setInterval(() => {
@@ -121,20 +124,24 @@
     transform: translate(-50%, -55%);
     width: .2em;
   }
+  .fire-center{
+    position: relative;
+    text-align: center;
+    top: 15em;
+  }
   .fire{
-    position: absolute;
-    top: 75%;
-    left: 3.1em;
-    /*transform: translate(-50%, -50%);*/
+    position: relative;
     font-size: 1.5em;
     border-radius: 1em;
     width: 10em;
     height: 1.5em;
     text-align: center;
-    border: 2px solid white;
+    border: 1.5px solid white;
     outline: none;
     color: white;
-    line-height: 1.5em;
+    line-height: 1.3em;
+    font-family: inherit;
+    background-image: linear-gradient(to left, #CC6533 0%, #CC4C33 50%,#CC3433 100%);
   }
   @keyframes bounce-in {
     0% {

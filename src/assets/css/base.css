@@ -2,6 +2,11 @@ body{
   padding: 0;
   margin: 0;
   font-family: "YouYuan",serif;
-
+  height: 100%;
+  width: 100%;
+}
+html{
+  height: 100%;
+  width: 100%;
 }
 

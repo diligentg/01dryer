@@ -81,22 +81,22 @@
   }
   img{
     position: absolute;
-    height: 80%;
-    width: 12%;
+    height: 3em;
+    width: 3em;
     top: 50%;
-    left: 84%;
+    left: 82%;
     transform: translate(0,-50%);
     border-radius: 50%;
   }
   .userMsg{
     border:none;
     outline: none;
-    font-size: 16px;
-    position: absolute;
-    top: 50%;
-    left: 42.5%;
+    font-size: 1em;
+    position: relative;
+    top: 2em;
     transform: translate(0,-50%);
-    text-align: right;
+    width: 3em;
+    margin-left: 83%;
   }
   .btnBar{
     margin-top: 20%;

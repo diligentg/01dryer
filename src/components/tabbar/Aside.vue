@@ -49,22 +49,21 @@
 .headImg{
   height: 35%;
   position: relative;
+  text-align: center;
 }
 img{
   position: absolute;
-  top: 35%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 45%;
-  width: 40%;
+  height: 7em;
+  width: 7em;
   border-radius: 50%;
   border: 3px solid #f6f6f6;
 }
 .nickName{
-  position: absolute;
-  top: 68%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  top: 70%;
   font-size: 1.2em;
 }
 /*侧边栏item垂直居中*/

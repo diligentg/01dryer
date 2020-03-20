@@ -4,37 +4,34 @@
     <!--    轮播-->
     <Roll></Roll>
     <!--    烘干机连接-->
-    <transition name="btnDisappear">
-      <Connection id="clickCon" v-show="isShow" @click.native="searchDevices()"></Connection>
-    </transition>
-
-    <div class="unCon" v-show="!isShow">
-      <div class="ti1">
-        未配对蓝牙设备
-      </div>
-<!--      <ul id="list1">-->
+      <transition name="btnDisappear">
+        <Connection id="clickCon" v-show="isShow" @click.native="searchDevices()"></Connection>
+      </transition>
+      <div class="unCon" v-show="!isShow">
+        <div class="ti1">
+          未配对蓝牙设备
+        </div>
+        <!--      <ul id="list1">-->
         <transition-group id="list1"  tag="ul" name="li1Appear">
           <!--        这里的Id01[index]想了很久，作为难点1，思维一直局限在遍历对象数组在操作数组-->
           <li class="li1" v-for="(item,index) in list01" :key="item" @click="creatConnection(Id01[index])"><pre>{{item}}</pre><pre class="pre1">|&nbsp点击连接&nbsp&nbsp</pre></li>
         </transition-group>
-<!--      </ul>-->
-    </div>
-
-    <div class="unCon" v-show="!isShow">
-      <div class="ti1">
-        已配对蓝牙设备
+        <!--      </ul>-->
       </div>
-<!--      <ul id="list2">-->
+      <div class="unCon" v-show="!isShow">
+        <div class="ti1">
+          已配对蓝牙设备
+        </div>
+        <!--      <ul id="list2">-->
         <transition-group id="list2"  tag="ul" name="li1Appear">
           <li class="li2" v-for="(item,index) in list02" :key="item" @click="dryerUse"><pre>{{item}}</pre><pre class="pre1">|&nbsp点击使用&nbsp&nbsp</pre></li>
         </transition-group>
-<!--      </ul>-->
+        <!--      </ul>-->
+      </div>
 
-    </div>
-
-    <div class="recon">
-      <button class="reconBtn" @click="recon" v-show="!isShow">返回</button>
-    </div>
+      <div class="recon">
+        <button class="reconBtn" @click="recon" v-show="!isShow">返回</button>
+      </div>
   </div>
 </template>
 
@@ -92,10 +89,10 @@
               if (BleDevice.getBondState() === bdevice.BOND_NONE) {
                 console.log("未配对蓝牙设备：" + BleDevice.getName() + '    ' + BleDevice.getAddress());
                 //参数如果跟取得的mac地址一样就配对
-                  if(BleDevice.getName() != null ){ //判断防止重复添加
-                    that.list01.push(BleDevice.getName());
-                    that.Id01.push(BleDevice.getAddress());
-                  }
+                if(BleDevice.getName() != null ){ //判断防止重复添加
+                  that.list01.push(BleDevice.getName());
+                  that.Id01.push(BleDevice.getAddress());
+                }
               }else{
                 if(BleDevice.getName() != null){ //根据Id02是否为空两个情况，防止重复添加，难点3
                   if (that.Id02.length === 0){
@@ -164,7 +161,7 @@
               main.unregisterReceiver(receiver); //取消监听
               console.log("搜索结束")
             } else {
-             let BleDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+              let BleDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
               //判断是否配对
               if (BleDevice.getBondState() === bdevice.BOND_NONE) {
                 console.log("未配对蓝牙设备：" + BleDevice.getName() + '    ' + BleDevice.getAddress());
@@ -204,42 +201,42 @@
 </script>
 
 <style scoped>
- ul,li{
+  ul,li{
     list-style:none;
     padding:0;
     margin:0;
   }
- .unCon,.recon{
-   text-align: center;
- }
- .ti1{
-   margin-bottom: 15px;
-   margin-top: 15px;
-   font-size: 1.3em;
- }
- .li1,.li2{
-   /*background-image: linear-gradient(to left, #ff9569 0%, #e92758 100%);*/
-   background-image: linear-gradient(to right, #CC5D33 0%, #CC3533 100%);
-   color: white;
-   border-radius: 1em;
-   height: 2em;
-   font-size: 1.2em;
-   margin: 0.3em auto 0.6em auto;
-   width: 18em;
-   line-height: 0.45em;
- }
- .li2{
-   background-image: linear-gradient(to right, #FB7C97 0%, #FF9968 100%);
- }
- .reconBtn{
-   height: 3em;
-   width: 3em;
-   border-radius: 50%;
-   font-size: 1.2em;
-   background-image: linear-gradient(to right, #CC5D33 0%, #CC3533 100%);
-   border: none;
-   color: white;
- }
+  .unCon,.recon{
+    text-align: center;
+  }
+  .ti1{
+    margin-bottom: 15px;
+    margin-top: 15px;
+    font-size: 1.3em;
+  }
+  .li1,.li2{
+    /*background-image: linear-gradient(to left, #ff9569 0%, #e92758 100%);*/
+    background-image: linear-gradient(to right, #CC5D33 0%, #CC3533 100%);
+    color: white;
+    border-radius: 1em;
+    height: 2em;
+    font-size: 1.2em;
+    margin: 0.3em auto 0.6em auto;
+    width: 18em;
+    line-height: 0.45em;
+  }
+  .li2{
+    background-image: linear-gradient(to right, #FB7C97 0%, #FF9968 100%);
+  }
+  .reconBtn{
+    height: 3em;
+    width: 3em;
+    border-radius: 50%;
+    font-size: 1.2em;
+    background-image: linear-gradient(to right, #CC5D33 0%, #CC3533 100%);
+    border: none;
+    color: white;
+  }
   .btnDisappear-enter-active {
     animation: bounce-in .5s;
     position: absolute;

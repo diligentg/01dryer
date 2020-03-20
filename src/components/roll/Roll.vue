@@ -33,7 +33,7 @@
       },
       data(){
           return{
-            dataList:[require('../../assets/img/9.png'),require("../../assets/img/10.png"),require("../../assets/img/11.png")],
+            dataList:[require('../../assets/img/1.jpg'),require("../../assets/img/2.jpg"),require("../../assets/img/3.jpg")],
             currentIndex: 0,   //默认显示图片
             timer: null    //定时器
           }
