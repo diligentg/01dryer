@@ -3,8 +3,10 @@
     <div class="header">
       <div class="header-name" >{{title}}</div>
       <div class="header-btn"><img src="../../assets/img/san.png" @click="asideBar" alt=""/></div>
+      <slot></slot>
     </div>
     <Aside v-show="isAside"><img class="backImg" src="../../assets/img/back.png" alt="" @click="asideBar"></Aside>
+
   </div>
 </template>
 

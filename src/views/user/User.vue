@@ -1,14 +1,16 @@
 <template>
   <div>
-    <Header></Header>
+    <Header><BackHomeIcon></BackHomeIcon></Header>
     <div class="userItem">
       <span class="userText">头像</span>
-      <label for="headChange"><img :src="imgUrl" alt=""></label><input type="file" id="headChange" v-show="false" @change="fileChange">
+      <label for="headChange"><img :src="PId" alt=""></label><input type="file" id="headChange" v-show="false" @change="fileChange">
     </div>
-    <div class="userItem"><span class="userText">昵称</span><input dir="auto" class="userMsg" type="text" v-model="nickName"/></div>
-    <div class="userItem"><span class="userText">性别</span><input dir="auto" class="userMsg" type="text" v-model="sex"/></div>
-    <div class="userItem"><span class="userText">寝室</span><input dir="auto" class="userMsg" type="text" v-model="dorm"/></div>
-    <div class="userItem"><span class="userText">电话</span><input dir="auto" class="userMsg" type="text" v-model="phoneNum"/></div>
+    <div class="userItem"><span class="userText">昵称</span><input  class="userMsg" type="text" v-model="name"/></div>
+    <div class="userItem"><span class="userText">性别</span><input  class="userMsg" type="text" v-model="sex"/></div>
+    <div class="userItem"><span class="userText">学校</span><input id="school"  class="userMsg" type="text" v-model="school"/></div>
+    <div class="userItem"><span class="userText">班级</span><input id="classMsg"  class="userMsg" type="text" v-model="classMsg"/></div>
+    <div class="userItem"><span class="userText">寝室</span><input id="dorm"  class="userMsg" type="text" v-model="dormi"/></div>
+    <div class="userItem"><span class="userText">电话</span><input id="phone"  class="userMsg" type="text" v-model="phone"/></div>
     <div class="btnBar"><button class="saveBtn" :disabled="isDisable" @click="save">保存</button><button class="backBtn" @click="backHome">返回</button></div>
   </div>
 </template>
@@ -16,51 +18,100 @@
 <script>
   import SaveBtn from '../../components/tabbar/SaveBtn'
   import Header from '../../components/header/Header'
+  import BackHomeIcon from '../../components/header/BackHomeIcon'
   import eventBus from '../../eventBus'
-    export default {
+  import {getUserMsg} from "../../network/user";
+  import axios from 'axios';
+
+
+  export default {
         name: "User",
         components:{
           SaveBtn,
-          Header
+          Header,
+          BackHomeIcon
         },
+      created(){
+          getUserMsg().then(res =>{
+            this.list=res.item[0];
+            console.log(this.list);
+            this.name=this.list.name;
+            this.sex=this.list.sex;
+            this.school=this.list.school;
+            this.dormi=this.list.dormi;
+            this.classMsg=this.list.classmsg;
+            this.phone=this.list.phone;
+          });
+      },
       data(){
         return{
-          imgUrl:require('../../assets/img/headimg.jpg'),
-          nickName:'银河',
+          isDisable:true,
+          list:{},
+          list2:[],
+          // imgUrl:require('../../assets/img/headimg.jpg'),
+          // nickName:'银河',
+          // sex:'男',
+          // school:'四川旅游学院',
+          // classMsg:'2016级2班',
+          // dorm:'清雅居B2403',
+          // phoneNum:'13551128161',
+          PId:require('../../assets/img/headimg.jpg'),
+          name:'银河',
           sex:'男',
-          dorm:'清雅居B2',
-          phoneNum:'123456789',
-          isDisable:true
+          school:'四川旅游学院',
+          classMsg:'2016级2班',
+          dormi:'清雅居B2403',
+          phone:'13551128161',
         }
       },
       methods:{
         fileChange(e) {
           let file = e.target.files[0];
           console.log(file);
-          this.imgUrl = window.URL.createObjectURL(e.target.files[0]);
+          this.PId = window.URL.createObjectURL(e.target.files[0]);
           console.log(window.URL.createObjectURL(e.target.files[0]));
-          // eventBus.$emit('getUrl',this.imgUrl)
         },
         save(){
-          eventBus.$emit('getUrl',this.imgUrl)
+          eventBus.$emit('getUrl',this.PId);
+          axios({
+            url:'/api/users/update',
+            method :'post',
+            params:{
+              id:this.list.id,
+              value: this.name,
+              field:'name',
+            }
+          }).then(()=>{
+            console.log(this.name);
+            alert("保存成功")
+          });
         },
         backHome(){
           this.$router.replace('/home')
         }
       },
       watch:{
-          imgUrl(){
-            return this.isDisable=false;
+          PId(){
+            this.isDisable=false;
           },
-          nickName(){
-            return this.isDisable=false
+          name(){
+            this.isDisable=false;
+          },
+          sex(){
+            this.isDisable=false;
+          },
+          classMsg(){
+            this.isDisable=false;
           },
           dorm(){
-            return this.isDisable=false
+            this.isDisable=false;
           },
-          phoneNum(){
-            return this.isDisable=false
-          }
+          school(){
+            this.isDisable=false;
+          },
+          phone(){
+            this.isDisable=false;
+          },
       }
     }
 </script>
@@ -84,7 +135,7 @@
     height: 3em;
     width: 3em;
     top: 50%;
-    left: 82%;
+    left: 84%;
     transform: translate(0,-50%);
     border-radius: 50%;
   }
@@ -95,8 +146,9 @@
     position: relative;
     top: 2em;
     transform: translate(0,-50%);
-    width: 3em;
-    margin-left: 83%;
+    width: 6em;
+    margin-left: 69%;
+    text-align: right;
   }
   .btnBar{
     margin-top: 20%;
@@ -132,4 +184,16 @@
   .backBtn{
     /*float: right;*/
   }
+  /*#dorm{*/
+  /*  width: 4.5em;*/
+  /*}*/
+  /*#phone{*/
+  /*  width: 5.2em;*/
+  /*}*/
+  /*#school{*/
+  /*  width: 5em;*/
+  /*}*/
+  /*#classMsg{*/
+  /*  width: 5em;*/
+  /*}*/
 </style>

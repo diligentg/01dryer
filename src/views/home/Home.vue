@@ -1,11 +1,12 @@
 <template>
-  <div style="height: 100% ;width: 100%;text-align: center">
+  <div style="height: 100% ;width: 100%;">
     <transition name="outer">
       <div class="outer" v-show="isShow"></div>
     </transition>
     <Header></Header>
     <!--    轮播-->
-    <Roll></Roll>
+    <Swiper></Swiper>
+<!--    <Roll></Roll>-->
     <!--    烘干机连接-->
       <transition name="btnDisappear">
         <Connection id="clickCon" v-show="isShow" @click.native="searchDevices()"></Connection>
@@ -41,6 +42,7 @@
 <script>
   import Header from '../../components/header/Header'
   import Roll from "../../components/roll/Roll";
+  import Swiper from '../../components/swiper/HomeSwiper'
   import Connection from '../../components/clickConnection/ClickConnection'
   export default {
     name: "Home",
@@ -48,6 +50,7 @@
       Roll,
       Header,
       Connection,
+      Swiper
     },
     data() {
       return {

@@ -6,8 +6,16 @@
   </div>
 </template>
 <script>
-export default {
+  import {getUserMsg} from "./network/user";
+
+  export default {
   name: 'App',
+  created() {
+    getUserMsg().then(res =>{
+      console.log(res.item[0]);
+      this.$store.commit('getUserInfo',res.item[0]);
+    });
+  }
 }
 </script>
 

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import ConsumeInfo from "../views/home/ConsumeInfo";
 
 const Home = ()=> import('../views/home/Home')
 const DryerUse = ()=> import('../views/home/DryerUse')
@@ -38,6 +39,13 @@ const routes=[
     component:DryerUse,
     meta:{
       title:'烘干机使用'
+    }
+  },
+  {
+    path:'/consumeInfo',
+    component:ConsumeInfo,
+    meta:{
+      title:'费用结算'
     }
   },
   {

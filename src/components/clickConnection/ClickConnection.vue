@@ -1,7 +1,9 @@
 <template>
-    <button class="clickCon">
-      点击使用
-    </button>
+    <div class="clickConnection">
+      <button class="clickCon">
+        点击使用
+      </button>
+    </div>
 </template>
 
 <script>
@@ -12,6 +14,11 @@
 </script>
 
 <style scoped>
+  .clickConnection{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+  }
   .clickCon{
     position: relative;
     height: 11em;

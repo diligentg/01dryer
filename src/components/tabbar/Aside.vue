@@ -29,7 +29,7 @@
       created() {
         let _this=this;
         eventBus.$on('getUrl', (url) => {
-          _this.asideImg=url
+          _this.asideImg=url;
           console.log(url);
         })
       }
@@ -45,6 +45,7 @@
   width: 78%;
   height: 100%;
   z-index: 99;
+  text-align: center;
 }
 .headImg{
   height: 35%;

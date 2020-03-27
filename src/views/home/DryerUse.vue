@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import Header from '../../components/header/Header'
+  import Header from '../../components/header/Header';
   export default {
     name: "DryerUse",
     components:{
@@ -31,6 +31,7 @@
     },
     methods:{
       timeBegin(){
+        this.$store.commit('getMinute',this.minute);
         //设置区间
         if (this.minute<0||this.minute>59||this.second<0||this.second>59){
           alert('区间为0-59');
@@ -56,6 +57,7 @@
               this.minute='00';
               clearInterval(timer);
               console.log('结束');
+              this.$router.push('/consumeInfo');
             }
           }, 1000);
         }
