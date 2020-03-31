@@ -7,13 +7,14 @@ Vue.use(Vuex);
 //2.创建对象
 const store = new Vuex.Store({
   state:{
-    dormi:'',
+    dormi:'清雅居B2403',
     minute:'',
     userInfo:[],
   },
   mutations:{
     getUserInfo(state,data){
       state.userInfo=data;
+      state.dormi=data.dormi;
     },
     getMinute(state,data){
       state.minute=data;

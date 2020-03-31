@@ -1,16 +1,16 @@
 <template>
   <div>
-    <Header><BackHomeIcon></BackHomeIcon></Header>
+    <Header></Header>
     <div class="userItem">
       <span class="userText">头像</span>
-      <label for="headChange"><img :src="PId" alt=""></label><input type="file" id="headChange" v-show="false" @change="fileChange">
+      <label for="headChange"><img :src="list2.pid" alt=""></label><input type="file" id="headChange" v-show="false" @change="fileChange">
     </div>
-    <div class="userItem"><span class="userText">昵称</span><input  class="userMsg" type="text" v-model="name"/></div>
-    <div class="userItem"><span class="userText">性别</span><input  class="userMsg" type="text" v-model="sex"/></div>
-    <div class="userItem"><span class="userText">学校</span><input id="school"  class="userMsg" type="text" v-model="school"/></div>
-    <div class="userItem"><span class="userText">班级</span><input id="classMsg"  class="userMsg" type="text" v-model="classMsg"/></div>
-    <div class="userItem"><span class="userText">寝室</span><input id="dorm"  class="userMsg" type="text" v-model="dormi"/></div>
-    <div class="userItem"><span class="userText">电话</span><input id="phone"  class="userMsg" type="text" v-model="phone"/></div>
+    <div class="userItem"><span class="userText">昵称</span><input  class="userMsg" type="text" v-model="list2.name"/></div>
+    <div class="userItem"><span class="userText">性别</span><input  class="userMsg" type="text" v-model="list2.sex"/></div>
+    <div class="userItem"><span class="userText">学校</span><input id="school"  class="userMsg" type="text" v-model="list2.school"/></div>
+    <div class="userItem"><span class="userText">班级</span><input id="classmsg"  class="userMsg" type="text" v-model="list2.classmsg"/></div>
+    <div class="userItem"><span class="userText">寝室</span><input id="dorm"  class="userMsg" type="text" v-model="list2.dormi"/></div>
+    <div class="userItem"><span class="userText">电话</span><input id="phone"  class="userMsg" type="text" v-model="list2.phone"/></div>
     <div class="btnBar"><button class="saveBtn" :disabled="isDisable" @click="save">保存</button><button class="backBtn" @click="backHome">返回</button></div>
   </div>
 </template>
@@ -18,10 +18,10 @@
 <script>
   import SaveBtn from '../../components/tabbar/SaveBtn'
   import Header from '../../components/header/Header'
-  import BackHomeIcon from '../../components/header/BackHomeIcon'
   import eventBus from '../../eventBus'
   import {getUserMsg} from "../../network/user";
   import axios from 'axios';
+  const qs = require('qs');
 
 
   export default {
@@ -29,60 +29,63 @@
         components:{
           SaveBtn,
           Header,
-          BackHomeIcon
         },
       created(){
           getUserMsg().then(res =>{
             this.list=res.item[0];
             console.log(this.list);
-            this.name=this.list.name;
-            this.sex=this.list.sex;
-            this.school=this.list.school;
-            this.dormi=this.list.dormi;
-            this.classMsg=this.list.classmsg;
-            this.phone=this.list.phone;
+            this.list2.name=this.list.name;
+            this.list2.sex=this.list.sex;
+            this.list2.school=this.list.school;
+            this.list2.dormi=this.list.dormi;
+            this.list2.classmsg=this.list.classmsg;
+            this.list2.phone=this.list.phone;
           });
       },
       data(){
         return{
           isDisable:true,
           list:{},
-          list2:[],
+          value:'',
+          field:'',
+          list2:{
+            pid:require('../../assets/img/headimg.jpg'),
+            name:'银河',
+            sex:'男',
+            school:'四川旅游学院',
+            classmsg:'2016级2班',
+            dormi:'清雅居B2403',
+            phone:'13551128161',
+          },
           // imgUrl:require('../../assets/img/headimg.jpg'),
           // nickName:'银河',
           // sex:'男',
           // school:'四川旅游学院',
-          // classMsg:'2016级2班',
+          // classmsg:'2016级2班',
           // dorm:'清雅居B2403',
           // phoneNum:'13551128161',
-          PId:require('../../assets/img/headimg.jpg'),
-          name:'银河',
-          sex:'男',
-          school:'四川旅游学院',
-          classMsg:'2016级2班',
-          dormi:'清雅居B2403',
-          phone:'13551128161',
+
         }
       },
       methods:{
         fileChange(e) {
           let file = e.target.files[0];
           console.log(file);
-          this.PId = window.URL.createObjectURL(e.target.files[0]);
+          this.list2.pid = window.URL.createObjectURL(e.target.files[0]);
           console.log(window.URL.createObjectURL(e.target.files[0]));
         },
         save(){
-          eventBus.$emit('getUrl',this.PId);
+          eventBus.$emit('getUrl',this.list2.pid);
           axios({
             url:'/api/users/update',
             method :'post',
             params:{
+              value: this.value,
               id:this.list.id,
-              value: this.name,
-              field:'name',
-            }
+              field:this.field,
+            },
           }).then(()=>{
-            console.log(this.name);
+            console.log(this.list2.name);
             alert("保存成功")
           });
         },
@@ -91,27 +94,48 @@
         }
       },
       watch:{
-          PId(){
-            this.isDisable=false;
+          list2:{
+            handler:function () {
+              this.isDisable=false;
+            },
+            deep:true
           },
-          name(){
-            this.isDisable=false;
-          },
-          sex(){
-            this.isDisable=false;
-          },
-          classMsg(){
-            this.isDisable=false;
-          },
-          dorm(){
-            this.isDisable=false;
-          },
-          school(){
-            this.isDisable=false;
-          },
-          phone(){
-            this.isDisable=false;
-          },
+        'list2.name':{
+          handler:function (newData) {
+            this.value=newData;
+            this.field='name';
+          }
+        },
+        'list2.sex':{
+          handler:function (newData) {
+            this.value=newData;
+            this.field='sex';
+          }
+        },
+        'list2.school':{
+          handler:function (newData) {
+            this.value=newData;
+            this.field='school';
+          }
+        },
+        'list2.classmsg':{
+          handler:function (newData) {
+            this.value=newData;
+            this.field='classmsg';
+          }
+        },
+        'list2.dormi':{
+          handler:function (newData) {
+            this.value=newData;
+            this.field='dormi';
+          }
+        },
+        'list2.phone':{
+          handler:function (newData) {
+            this.value=newData;
+            this.field='phone';
+          }
+        },
       }
     }
 </script>
@@ -193,7 +217,7 @@
   /*#school{*/
   /*  width: 5em;*/
   /*}*/
-  /*#classMsg{*/
+  /*#classmsg{*/
   /*  width: 5em;*/
   /*}*/
 </style>

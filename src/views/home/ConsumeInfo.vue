@@ -6,7 +6,7 @@
       <div class="infoItem"><span class="le">消费状态</span><span class="ri">{{list.consumestatus}}</span></div>
       <div class="infoItem"><span class="le">支付方式</span><span class="ri">{{list.way}}</span></div>
       <div class="infoItem"><span class="le">消费时间</span><span class="ri">{{list.consumetime}}</span></div>
-      <div class="infoItem"><span class="le">消费地点</span><span class="ri">{{list.location}}</span></div>
+      <div class="infoItem"><span class="le">消费地点</span><span class="ri" v-model="list.location">{{list.location}}</span></div>
       <div class="infoItem"><span class="le">实际支付</span><span class="ri">{{list.pay}}</span></div>
     </div>
     <div class="backHome">
@@ -30,8 +30,8 @@
               usetype:'烘干',
               consumestatus:'交易成功',
               way:'余额',
-              consumetime:'',
-              location:'2403',
+              consumetime:'123',
+              location:'',
               pay:'1 元',
             }
           }
@@ -47,7 +47,7 @@
       created() {
           this.getTime();
           this.list.pay= this.$store.state.minute*0.1+" 元";
-          this.list.location=this.$store.state.userInfo.dormi;
+          this.list.location=this.$store.state.dormi;
           // let info=JSON.stringify(this.list);
         axios({
           url:'/api/costs/add',
@@ -74,7 +74,6 @@
   background-image: linear-gradient(to left, #CC6533 0%, #CC4C33 50%,#CC3433 100%);
 }
   .info{
-    height: 22em;
     width: 22em;
     background-color: white;
     top: 15%;
@@ -84,9 +83,9 @@
     border-radius: 20px;
   }
   .infoItem{
-    font-size: 1.15em;
+    /*font-size: 1.15em;*/
     position: relative;
-    border-bottom: 1px solid #c4c4c4;
+    border-bottom: 1px solid #9e9e9e45;
     height: 3em;
     line-height: 3em;
   }
@@ -101,7 +100,7 @@
 .backHome{
   text-align: center;
   position: relative;
-  top:10em;
+  top:15em;
 }
   .backHomeBtn{
     height: 3em;

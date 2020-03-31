@@ -2,30 +2,25 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import ConsumeInfo from "../views/home/ConsumeInfo";
 
-const Home = ()=> import('../views/home/Home')
-const DryerUse = ()=> import('../views/home/DryerUse')
-const Bill = ()=> import('../views/bill/Bill')
-const Balance = ()=> import('../views/balance/Balance')
-const Fix = ()=> import('../views/fix/Fix')
-const Header = ()=> import('../components/header/Header')
-const User = ()=> import('../views/user/User')
-const Aside = ()=> import('../components/tabbar/Aside')
+const Home = ()=> import('../views/home/Home');
+const DryerUse = ()=> import('../views/home/DryerUse');
+const Bill = ()=> import('../views/bill/Bill');
+const Balance = ()=> import('../views/balance/Balance');
+const Fix = ()=> import('../views/fix/Fix');
+const Header = ()=> import('../components/header/Header');
+const User = ()=> import('../views/user/User');
+const Aside = ()=> import('../components/tabbar/Aside');
+const Login = ()=> import('../views/login/Login');
 
 
 Vue.use(VueRouter)
 
 const routes=[
-  // {
-  //   path:'',
-  //   redirect:'/user',
-  //   name:"user",
-  //   component:User
-  // },
   {
     path:'',
-    redirect:'/home',
-    name:"home",
-    component:Home
+    redirect:'/login',
+    name:"login",
+    component:Login
   },
   {
     path:'/home',
@@ -33,6 +28,10 @@ const routes=[
     meta:{
       title:'首页'
     }
+  },
+  {
+    path:'/login',
+    component:Login,
   },
   {
     path:'/dryerUse',
@@ -79,7 +78,7 @@ const routes=[
     name:'balance',
     component:Balance,
     meta:{
-      title:'余额',
+      title:'钱包',
     }
   },
   {
