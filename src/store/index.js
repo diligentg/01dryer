@@ -9,6 +9,7 @@ const store = new Vuex.Store({
   state:{
     dormi:'清雅居B2403',
     minute:'',
+    type:'',
     userInfo:[],
   },
   mutations:{
@@ -19,6 +20,10 @@ const store = new Vuex.Store({
     getMinute(state,data){
       state.minute=data;
       console.log(state.minute);
+    },
+    getType(state,data){
+      state.type=data;
+      console.log(state.type);
     }
   },
   actions:{

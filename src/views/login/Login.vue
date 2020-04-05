@@ -77,8 +77,7 @@
     position: relative;
     text-align: center;
     top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin: auto;
     font-size: 1.3em;
     border: 1px solid white;
     height: 1.7em;
@@ -88,5 +87,20 @@
   }
 input::-webkit-input-placeholder{/*Webkit browsers*/
   color: rgba(255,251,240,0.4)
+}
+.loginBtn:active {
+  animation-name: bounce-in ;
+  animation-duration: .2s;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>

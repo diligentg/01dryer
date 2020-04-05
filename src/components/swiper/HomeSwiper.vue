@@ -16,7 +16,7 @@
       },
       data(){
         return{
-          dataList:[require('../../assets/img/1.jpg'),require("../../assets/img/2.jpg"),require("../../assets/img/3.jpg")],
+          dataList:[require('../../assets/img/gong.jpg'),require('../../assets/img/1.jpg'),require("../../assets/img/2.jpg"),require("../../assets/img/3.jpg")],
           isLoad: false,
         }
       },

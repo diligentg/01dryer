@@ -17,6 +17,7 @@
 
 <script>
   import Header from '../../components/header/Header';
+  import eventBus from '../../eventBus'
   import axios from 'axios';
   const qs = require('qs');
     export default {
@@ -46,6 +47,7 @@
       },
       created() {
           this.getTime();
+          this.list.usetype=this.$store.state.type;
           this.list.pay= this.$store.state.minute*0.1+" 元";
           this.list.location=this.$store.state.dormi;
           // let info=JSON.stringify(this.list);

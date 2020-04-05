@@ -13,22 +13,22 @@
       </transition>
       <div class="unCon" v-show="!isShow">
         <div class="ti1">
-          未配对蓝牙设备
+          未添加设备
         </div>
         <!--      <ul id="list1">-->
         <transition-group id="list1"  tag="ul" name="li1Appear">
           <!--        这里的Id01[index]想了很久，作为难点1，思维一直局限在遍历对象数组在操作数组-->
-          <li class="li1" v-for="(item,index) in list01" :key="item" @click="creatConnection(Id01[index])"><pre>{{item}}</pre><pre class="pre1">|&nbsp点击连接&nbsp&nbsp</pre></li>
+          <li class="li1" v-for="(item,index) in list01" :key="item" @click="creatConnection(Id01[index],index)"><pre>{{item}}</pre><pre class="pre1">|&nbsp点击连接&nbsp&nbsp</pre></li>
         </transition-group>
         <!--      </ul>-->
       </div>
       <div class="unCon" v-show="!isShow">
         <div class="ti1">
-          已配对蓝牙设备
+          已添加设备
         </div>
         <!--      <ul id="list2">-->
         <transition-group id="list2"  tag="ul" name="li1Appear">
-          <li class="li2" v-for="(item,index) in list02" :key="item" @click="dryerUse"><pre>{{item}}</pre><pre class="pre1">|&nbsp点击使用&nbsp&nbsp</pre></li>
+          <li class="li2" v-for="(item,index) in list02" :key="item" @click="dryerUse(item)"><pre>{{item}}</pre><pre class="pre1">|&nbsp点击使用&nbsp&nbsp</pre></li>
         </transition-group>
         <!--      </ul>-->
       </div>
@@ -59,6 +59,7 @@
         Id01:[],
         Id02:[],
         isShow:true,
+        bleStatus:""
       }
     },
     methods: {
@@ -144,7 +145,7 @@
         }
       },
       //分离出添加设备的操作,难点2
-      creatConnection(addr){
+      creatConnection(addr,Index){
         let that = this;
         console.log(addr);
         let main = plus.android.runtimeMainActivity();
@@ -173,13 +174,21 @@
                 console.log("未配对蓝牙设备：" + BleDevice.getName() + '    ' + BleDevice.getAddress());
                 //参数如果跟取得的mac地址一样就配对
                 if (addr === BleDevice.getAddress()) {
-                  if (BleDevice.createBond()) {
-                    //配对命令.createBond()
-                    console.log("配对成功");
+                  if (BleDevice.getName()==='Dryer-01'){
                     that.list02.push(BleDevice.getName());
                     that.Id02.push(BleDevice.getAddress());
+                    //难点，添加后删除未添加的项
+                    that.list01.splice(Index,1);
                     alert('添加成功');
-                    // that.$router.replace('/dryerUse');
+                  }else {
+                    if (BleDevice.createBond()) {
+                      //配对命令.createBond()
+                      console.log("配对成功");
+                      that.list02.push(BleDevice.getName());
+                      that.Id02.push(BleDevice.getAddress());
+                      that.list01.splice(Index,1);
+                      alert('添加成功');
+                    }
                   }
                 }
               }
@@ -199,8 +208,35 @@
       recon(){
         this.isShow=!this.isShow;
       },
-      dryerUse(){
-        this.$router.push('/dryerUse');
+      dryerUse(item){
+        let that=this;
+        if (item==="Dryer-01") {
+          // 打开蓝牙模块
+            plus.bluetooth.openBluetoothAdapter({
+              success:function(e){
+                console.log('open success: '+JSON.stringify(e));
+                //连接
+                plus.bluetooth.createBLEConnection({
+                  deviceId:"90:9A:77:2B:85:0B",
+                  success:function(e){
+                    console.log('create connection success: '+JSON.stringify(e));
+                    that.bleStatus=e.code;
+                    if (that.bleStatus===0){
+                      that.$router.push('/dryerUse');
+                    }
+                  },
+                  fail:function(e){
+                    console.log('create connection failed: '+JSON.stringify(e));
+                  }
+                });
+              },
+              fail:function(e){
+                console.log('open failed: '+JSON.stringify(e));
+              }
+            });
+        }else {
+          that.$router.push('/dryerUse');
+        }
       }
     }
   }

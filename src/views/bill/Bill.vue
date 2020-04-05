@@ -1,7 +1,6 @@
 <template>
   <div>
     <Header><BackHomeIcon></BackHomeIcon></Header>
-
     <div class="info" v-for="(item,index) in billList">
       <div class="infoItem"><span class="le">消费类型</span><span class="ri">{{item.usetype}}</span></div>
       <div class="infoItem"><span class="le">消费状态</span><span class="ri">{{item.consumestatus}}</span></div>

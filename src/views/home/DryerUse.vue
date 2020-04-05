@@ -6,6 +6,13 @@
       <input class="minute" type="text" v-model="minute" maxlength="2" max="59" min="0">
       <input class="mimi" type="text" value=":">
       <input class="second" type="text" v-model="second" maxlength="2" max="59" min="0">
+      <div class="useTypeShell">
+        <div
+          v-for="(item,index) in useType"
+          class="typeItem"
+          :class="{active:index===currentIndex}"
+          @click="chooseType(item,index)" >{{item}}</div>
+      </div>
     </div>
     <div class="fire-center">
       <button  class="fire" :disabled="isOnce" @click="timeBegin">开始</button>
@@ -15,6 +22,7 @@
 
 <script>
   import Header from '../../components/header/Header';
+  import eventBus from '../../eventBus'
   export default {
     name: "DryerUse",
     components:{
@@ -22,7 +30,10 @@
     },
     data(){
       return{
-        inUseMsg:'选择时间',
+        useType:['烘干','杀菌'],
+        inUseMsg:'选择服务和时间',
+        currentType:'烘干',
+        currentIndex:0,
         minute:'00',
         second:'00',
         zero:0,
@@ -30,7 +41,13 @@
       }
     },
     methods:{
+      chooseType(item,index){
+        this.currentType=item;
+        this.currentIndex=index;
+      },
       timeBegin(){
+        // eventBus.$emit('getType',this.currentType);
+        this.$store.commit('getType',this.currentType);
         this.$store.commit('getMinute',this.minute);
         //设置区间
         if (this.minute<0||this.minute>59||this.second<0||this.second>59){
@@ -40,7 +57,7 @@
         }
         else {
           this.isOnce=!this.isOnce;
-          this.inUseMsg='正在使用中';
+          this.inUseMsg='正在'+this.currentType+'中';
           //倒计时
           let timer=setInterval(() => {
             if (this.second<0.999){
@@ -57,6 +74,23 @@
               this.minute='00';
               clearInterval(timer);
               console.log('结束');
+              plus.bluetooth.closeBLEConnection({
+                deviceId:"90:9A:77:2B:85:0B",
+                success:function(e){
+                  console.log('close success: '+JSON.stringify(e));
+                  plus.bluetooth.closeBluetoothAdapter({
+                    success:function(e){
+                      console.log('close success: '+JSON.stringify(e));
+                    },
+                    fail:function(e){
+                      console.log('close failed: '+JSON.stringify(e));
+                    }
+                  });
+                },
+                fail:function(e){
+                  console.log('close failed: '+JSON.stringify(e));
+                }
+              });
               this.$router.push('/consumeInfo');
             }
           }, 1000);
@@ -125,6 +159,25 @@
     left: 50%;
     transform: translate(-50%, -55%);
     width: .2em;
+  }
+  .useTypeShell{
+    display: flex;
+    justify-content: space-evenly;
+    position: relative;
+    width: 55%;
+    top: 60%;
+    margin: auto;
+  }
+  .typeItem{
+    border: 1px solid #757474;
+    height: 2em;
+    line-height: 2em;
+    width: 35%;
+    border-radius: 20px;
+  }
+  .active{
+    background-color: #cf2f05;
+    color: white;
   }
   .fire-center{
     position: relative;
