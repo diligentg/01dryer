@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="Fix">
       <Header></Header>
       <div class="fixMsg">
         <div class="fixItem"><span class="fixText">姓名</span><input v-model="listFix.fname"  class="fixInput" placeholder="报修人姓名"  type="text" /></div>
@@ -16,7 +16,7 @@
           <label for="fixImg"><img :src="listFix.Image" alt=""></label><input type="file" id="fixImg" v-show="false" @change="fileChange">
         </div>
       </div>
-      <div class="goFix" @click="goFix">提交报修</div>
+      <button class="goFix" @click="goFix" :disabled="isDisabled" >提交报修</button>
     </div>
 </template>
 
@@ -31,6 +31,7 @@
       },
       data(){
         return{
+          isDisabled:true,
           listFix:{
             Image:require('../../assets/img/upfix.png'),
             fiximg:'',
@@ -65,11 +66,22 @@
             alert('提交成功')
           })
         }
+      },
+      watch:{
+        listFix:{
+          handler:function () {
+            this.isDisabled=false
+          },
+          deep:true
+        }
       }
     }
 </script>
 
 <style scoped>
+  #Fix{
+    text-align: center;
+  }
 .fixItem{
   position: relative;
   height: 59px;
@@ -123,16 +135,16 @@ img{
 }
   .goFix{
     position: relative;
-    top:5em;
-    text-align: center;
+    top: 5em;
     background-color: #FF5722;
     color: white;
     height: 2em;
     width: 8em;
     line-height: 2em;
     border-radius: 20px;
-    margin: auto;
     font-size: 1.2em;
+    border: none;
+    outline: none;
   }
   .goFix:active{
     animation-name: bounce-in ;

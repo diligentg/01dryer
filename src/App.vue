@@ -21,7 +21,6 @@
 
 <style>
   @import "./assets/css/base.css";
-  @import "assets/css/font.css";
   #app{
     height: 100%;
     width: 100%;

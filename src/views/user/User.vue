@@ -30,18 +30,6 @@
           SaveBtn,
           Header,
         },
-      created(){
-          getUserMsg().then(res =>{
-            this.list=res.item[0];
-            console.log(this.list);
-            this.list2.name=this.list.name;
-            this.list2.sex=this.list.sex;
-            this.list2.school=this.list.school;
-            this.list2.dormi=this.list.dormi;
-            this.list2.classmsg=this.list.classmsg;
-            this.list2.phone=this.list.phone;
-          });
-      },
       data(){
         return{
           isDisable:true,
@@ -49,7 +37,8 @@
           value:'',
           field:'',
           list2:{
-            pid:require('../../assets/img/headimg.jpg'),
+            pid:require('../../assets/img/headimg1.jpg'),
+            newPid:'img/headimg1.jpg',
             name:'银河',
             sex:'男',
             school:'四川旅游学院',
@@ -57,20 +46,27 @@
             dormi:'清雅居B2403',
             phone:'13551128161',
           },
-          // imgUrl:require('../../assets/img/headimg.jpg'),
-          // nickName:'银河',
-          // sex:'男',
-          // school:'四川旅游学院',
-          // classmsg:'2016级2班',
-          // dorm:'清雅居B2403',
-          // phoneNum:'13551128161',
-
         }
       },
+    created(){
+      getUserMsg().then(res =>{
+        this.list=res.item[0];
+        console.log(this.list);
+        // this.list2.pid=require('../../assets/'+this.list.pid);
+        this.list2.newPid=this.list.pid;
+        this.list2.pid=require('../../assets/'+this.list2.newPid);
+        this.list2.name=this.list.name;
+        this.list2.sex=this.list.sex;
+        this.list2.school=this.list.school;
+        this.list2.dormi=this.list.dormi;
+        this.list2.classmsg=this.list.classmsg;
+        this.list2.phone=this.list.phone;
+      });
+    },
       methods:{
         fileChange(e) {
           let file = e.target.files[0];
-          console.log(file);
+          this.list2.newPid=file.name;
           this.list2.pid = window.URL.createObjectURL(e.target.files[0]);
           console.log(window.URL.createObjectURL(e.target.files[0]));
         },
@@ -85,7 +81,7 @@
               field:this.field,
             },
           }).then(()=>{
-            console.log(this.list2.name);
+            console.log(this.value);
             alert("保存成功")
           });
         },
@@ -100,6 +96,13 @@
             },
             deep:true
           },
+        'list2.pid':{
+            handler:function () {
+              this.value='img/'+this.list2.newPid;
+              console.log(this.value);
+              this.field='pid';
+            }
+        },
         'list2.name':{
           handler:function (newData) {
             this.value=newData;

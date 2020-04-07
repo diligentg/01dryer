@@ -77,9 +77,6 @@
         let IntentFilter = plus.android.importClass('android.content.IntentFilter');
         let filter = new IntentFilter();
 
-        let vlist1 = document.getElementById('list1'); //注册容器用来显示未配对设备
-        vlist1.innerHTML = ''; //清空容器
-        let resultDiv = document.getElementById('btn');
         BAdapter.startDiscovery(); //开启搜索
         console.log("开始搜索设备");
         let receiver=plus.android.implements('io.dcloud.android.content.BroadcastReceiver', {

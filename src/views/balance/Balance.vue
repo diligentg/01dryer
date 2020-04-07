@@ -59,7 +59,7 @@
   background-image: linear-gradient(to left, #CC6533 0%, #CC4C33 50%,#CC3433 100%);
 }
   .balanceContent{
-    height: 22em;
+    height: 25em;
     width: 22em;
     background-color: white;
     top: 8%;
@@ -75,7 +75,7 @@
   }
   .remainNum{
     margin-left: 5%;
-    font-size: 2.5em;
+    font-size: 2em;
   }
   .total{
     text-align: center;

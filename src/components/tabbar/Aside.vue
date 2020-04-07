@@ -1,7 +1,7 @@
 <template>
     <transition name="show-aside">
       <div id="tab-bar" >
-        <div class="headImg"><img :src="asideImg"><div class="nickName">银河</div></div>
+        <div class="headImg"><img :src="asideImg"><div class="nickName">{{asideName}}</div></div>
         <Tab-Bar-Item path="/home"><div class="tab-bar-item">设备使用</div></Tab-Bar-Item>
         <Tab-Bar-Item path="/user"><div class="tab-bar-item">个人主页</div></Tab-Bar-Item>
         <Tab-Bar-Item path="/bill"><div class="tab-bar-item">我的账单</div></Tab-Bar-Item>
@@ -15,6 +15,7 @@
 <script>
   import TabBarItem from './TabBarItem'
   import eventBus from '../../eventBus'
+  import {getUserMsg} from "../../network/user";
 
     export default {
       name: "TabBar",
@@ -23,23 +24,27 @@
       },
       data(){
         return{
-          asideImg:require('../../assets/img/headimg.jpg')
+          asideImg:require('../../assets/img/headimg1.jpg'),
+          asideName:'银河'
         }
       },
       created() {
-        let _this=this;
         eventBus.$on('getUrl', (url) => {
-          _this.asideImg=url;
+          this.asideImg=url;
           console.log(url);
+        });
+        getUserMsg().then(res=>{
+          this.asideImg=require('../../assets/'+res.item[0].pid);
+          this.asideName=res.item[0].name;
         })
-      }
+      },
     }
 </script>
 
 <style scoped>
 #tab-bar{
-  /*background-image: linear-gradient(top, #ffffff 0%, #0c64ce 100%);*/
-  background-image: linear-gradient(top, #ffe5df 0%, #cf2f05 100%);
+  /*background-image: linear-gradient(top, #ffe5df 0%, #cf2f05 100%);*/
+  background-image: linear-gradient(to top, rgba(204,101,50) 0%, rgba(204,76,51) 50%,rgba(204,52,51,.9) 100%);
   position: absolute;
   top: 0;
   width: 78%;
@@ -66,6 +71,7 @@ img{
   position: relative;
   top: 70%;
   font-size: 1.2em;
+  color: white;
 }
 /*侧边栏item垂直居中*/
 .tab-bar-item{
@@ -73,6 +79,7 @@ img{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  color: white;
 }
   .show-aside-enter-active{
     transition: all .3s ease-out;

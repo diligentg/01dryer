@@ -7,7 +7,7 @@
       <div class="infoItem"><span class="le">支付方式</span><span class="ri">{{list.way}}</span></div>
       <div class="infoItem"><span class="le">消费时间</span><span class="ri">{{list.consumetime}}</span></div>
       <div class="infoItem"><span class="le">消费地点</span><span class="ri" v-model="list.location">{{list.location}}</span></div>
-      <div class="infoItem"><span class="le">实际支付</span><span class="ri">{{list.pay}}</span></div>
+      <div class="infoItem"><span class="le">实际支付</span><span class="ri">{{list.pay}} 元</span></div>
     </div>
     <div class="backHome">
       <button class="backHomeBtn" @click="backHome">返回</button>
@@ -33,7 +33,7 @@
               way:'余额',
               consumetime:'123',
               location:'',
-              pay:'1 元',
+              pay:'1',
             }
           }
       },
@@ -48,7 +48,7 @@
       created() {
           this.getTime();
           this.list.usetype=this.$store.state.type;
-          this.list.pay= this.$store.state.minute*0.1+" 元";
+          this.list.pay= this.$store.state.minute*0.1;
           this.list.location=this.$store.state.dormi;
           // let info=JSON.stringify(this.list);
         axios({
@@ -63,6 +63,17 @@
           }
         }).then(()=>{
           console.log('添加成功');
+        });
+        axios({
+          url:'/api/balances/update',
+          method :'post',
+          params:{
+            value: this.list.pay,
+            id:'1',
+            field:'remain',
+          }
+        }).then(()=>{
+          console.log(this.list.pay);
         })
       },
     }
