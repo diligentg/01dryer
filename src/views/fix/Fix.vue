@@ -23,6 +23,7 @@
 <script>
   import Header from '../../components/header/Header'
   import axios from 'axios'
+  import {request} from "../../network/request"
   const qs = require('qs')
     export default {
         name: "Fix",
@@ -52,8 +53,8 @@
           console.log(window.URL.createObjectURL(e.target.files[0]));
         },
         goFix(){
-          axios({
-            url:'/api/fixs/add',
+          request({
+            url:'/fixs/add',
             method:'post',
             params:{
               fix:this.listFix

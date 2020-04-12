@@ -20,6 +20,7 @@
   import Header from '../../components/header/Header'
   import eventBus from '../../eventBus'
   import {getUserMsg} from "../../network/user";
+  import {request} from "../../network/request"
   import axios from 'axios';
   const qs = require('qs');
 
@@ -61,6 +62,8 @@
         this.list2.dormi=this.list.dormi;
         this.list2.classmsg=this.list.classmsg;
         this.list2.phone=this.list.phone;
+      }).catch(()=>{
+        alert("服务器异常")
       });
     },
       methods:{
@@ -72,18 +75,29 @@
         },
         save(){
           eventBus.$emit('getUrl',this.list2.pid);
-          axios({
-            url:'/api/users/update',
-            method :'post',
+          request({
+            url:'/users/update',
             params:{
               value: this.value,
               id:this.list.id,
               field:this.field,
-            },
+            }
           }).then(()=>{
             console.log(this.value);
             alert("保存成功")
-          });
+          })
+          // axios({
+          //   url:'/api/users/update',
+          //   method :'post',
+          //   params:{
+          //     value: this.value,
+          //     id:this.list.id,
+          //     field:this.field,
+          //   },
+          // }).then(()=>{
+          //   console.log(this.value);
+          //   alert("保存成功")
+          // });
         },
         backHome(){
           this.$router.replace('/home')

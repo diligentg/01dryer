@@ -16,6 +16,7 @@
   import Header from '../../components/header/Header';
   import BackHomeIcon from '../../components/header/BackHomeIcon'
   import axios from 'axios';
+  import {request} from "../../network/request"
   const qs = require('qs');
     export default {
         name: "Bill",
@@ -29,11 +30,11 @@
         }
       },
       created() {
-          axios({
-            url:'/api/costs/selectAll',
+          request({
+            url:'/costs/selectAll',
             method:'post',
           }).then((res)=>{
-            this.billList=res.data.item;
+            this.billList=res.item;
             console.log(this.billList);
           })
       }

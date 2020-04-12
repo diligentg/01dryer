@@ -5,7 +5,7 @@
         <Tab-Bar-Item path="/home"><div class="tab-bar-item">设备使用</div></Tab-Bar-Item>
         <Tab-Bar-Item path="/user"><div class="tab-bar-item">个人主页</div></Tab-Bar-Item>
         <Tab-Bar-Item path="/bill"><div class="tab-bar-item">我的账单</div></Tab-Bar-Item>
-        <Tab-Bar-Item path="/balance"><div class="tab-bar-item">我的余额</div></Tab-Bar-Item>
+        <Tab-Bar-Item path="/balance"><div class="tab-bar-item">我的钱包</div></Tab-Bar-Item>
         <Tab-Bar-Item path="/fix"><div class="tab-bar-item">设备报修</div></Tab-Bar-Item>
         <slot></slot>
       </div>
@@ -44,7 +44,7 @@
 <style scoped>
 #tab-bar{
   /*background-image: linear-gradient(top, #ffe5df 0%, #cf2f05 100%);*/
-  background-image: linear-gradient(to top, rgba(204,101,50) 0%, rgba(204,76,51) 50%,rgba(204,52,51,.9) 100%);
+  background-image: linear-gradient(to top, rgba(204,101,50,1) 0%, rgba(204,76,51,1) 50%,rgba(204,52,51,.9) 100%);
   position: absolute;
   top: 0;
   width: 78%;

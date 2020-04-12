@@ -12,7 +12,7 @@
           </div>
         </div>
         <div class="total">共计{{total}}</div>
-        <div class="recharge">立即充值</div>
+        <div class="recharge" @click="recharge">立即充值</div>
       </div>
     </div>
 </template>
@@ -20,6 +20,7 @@
 <script>
   import Header from '../../components/header/Header'
   import axios from 'axios'
+  import {request} from "../../network/request"
     export default {
         name: "Balance",
       components:{
@@ -30,22 +31,46 @@
             remain:'10',
             amount:['10','20','50','100','150','200'],
             currentIndex:0,
-            total:''
+            total:'10',
+            orderString:''
           }
       },
       methods:{
           licIndex(index,item){
             this.currentIndex=index;
             this.total=item;
-          }
+          },
+        recharge(){
+            request({
+              method:'post',
+              url:'/balances/alipay',
+              params:{
+                paydto:this.total,
+              }
+            }).then((res)=>{
+              console.log(res);
+              this.orderString=res.data;
+              request({
+                method:'post',
+                url:'/balances/recharge',
+                params:{
+                  value:this.total,
+                  id:'1',
+                  field:'remain',
+                }
+              }).then(()=>{
+                console.log('充值成功');
+              });
+            })
+        }
       },
       created() {
-          axios({
+          request({
+            url:'/balances/selectAll',
             method:'post',
-            url:'/api/balances/selectAll'
           }).then((res)=>{
             console.log(res);
-            this.remain=res.data.item[0].remain;
+            this.remain=res.item[0].remain;
           })
       }
     }

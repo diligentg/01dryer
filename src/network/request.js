@@ -2,9 +2,11 @@ import axios from 'axios'
 
 export function request(config) {
   // 1.创建axios的实例
+// let serverUrl='http://192.168.1.36:8080/dryer';
+let serverUrl='/api';
 
   const instance = axios.create({
-    baseURL: '/api',
+    baseURL: serverUrl,
     timeout: 5000
   })
 

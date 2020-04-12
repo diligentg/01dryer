@@ -9,8 +9,5 @@ export function getUserMsg() {
 export function updateUserMsg() {
   return request({
     url:'/users/update',
-    params:{
-
-    }
   })
 }
