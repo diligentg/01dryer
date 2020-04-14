@@ -17,7 +17,7 @@
 
 <script>
   import Header from '../../components/header/Header';
-  import eventBus from '../../eventBus'
+  import {request} from "../../network/request"
   import axios from 'axios';
   const qs = require('qs');
     export default {
@@ -51,8 +51,8 @@
           this.list.pay= this.$store.state.minute*0.1;
           this.list.location=this.$store.state.dormi;
           // let info=JSON.stringify(this.list);
-        axios({
-          url:'/api/costs/add',
+        request({
+          url:'/costs/add',
           method :'post',
           params:{
             cost:this.list,
@@ -64,8 +64,8 @@
         }).then(()=>{
           console.log('添加成功');
         });
-        axios({
-          url:'/api/balances/update',
+        request({
+          url:'/balances/update',
           method :'post',
           params:{
             value: this.list.pay,

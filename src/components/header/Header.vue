@@ -70,7 +70,7 @@
   .backImg{
     width: 4.5em;
     height: 4.5em;
-    top: 50%;
+    top: 2.5em;
     transform: translate(0%,30%);
     border-radius: 50%;
     position: relative;

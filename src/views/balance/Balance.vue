@@ -4,7 +4,7 @@
       <div class="balanceContent">
         <div class="text">我的余额</div>
         <div class="remainNum">{{remain}}元</div>
-        <div class="recharge-shell">
+        <div class="amount-shell">
           <div class="recharge-item"
                v-for="(item,index) in amount"
                :class="{active:index===currentIndex}"
@@ -12,7 +12,11 @@
           </div>
         </div>
         <div class="total">共计{{total}}</div>
-        <div class="recharge" @click="recharge">立即充值</div>
+        <div class="recharge-shell">
+          <a :href="payString">
+            <button class="recharge" @click="recharge" :disabled="isDisabled">立即充值</button>
+          </a>
+        </div>
       </div>
     </div>
 </template>
@@ -30,38 +34,43 @@
           return{
             remain:'10',
             amount:['10','20','50','100','150','200'],
-            currentIndex:0,
-            total:'10',
-            orderString:''
+            currentIndex:'',
+            total:null,
+            orderString:'',
+            payString:'',
+            isDisabled:true,
           }
       },
       methods:{
           licIndex(index,item){
             this.currentIndex=index;
             this.total=item;
-          },
-        recharge(){
+            this.isDisabled=false;
+            //难点
             request({
               method:'post',
               url:'/balances/alipay',
               params:{
-                paydto:this.total,
+                count:this.total,
               }
             }).then((res)=>{
               console.log(res);
-              this.orderString=res.data;
-              request({
-                method:'post',
-                url:'/balances/recharge',
-                params:{
-                  value:this.total,
-                  id:'1',
-                  field:'remain',
-                }
-              }).then(()=>{
-                console.log('充值成功');
-              });
+              this.payString=res;
+              // this.orderString=res.data;
             })
+          },
+        recharge(){
+          request({
+            method:'post',
+            url:'/balances/recharge',
+            params:{
+              value:this.total,
+              id:'1',
+              field:'remain',
+            }
+          }).then(()=>{
+            console.log('充值成功');
+          });
         }
       },
       created() {
@@ -77,6 +86,11 @@
 </script>
 
 <style scoped>
+  a{
+    -webkit-tap-highlight-color: transparent; outline: none;
+    text-decoration:none;
+    display: contents;
+  }
 #balance{
   position: absolute;
   height: 100%;
@@ -84,8 +98,8 @@
   background-image: linear-gradient(to left, #CC6533 0%, #CC4C33 50%,#CC3433 100%);
 }
   .balanceContent{
-    height: 25em;
-    width: 22em;
+    height: 50%;
+    width: 94%;
     background-color: white;
     top: 8%;
     margin-left: auto;
@@ -108,7 +122,23 @@
     top: 5%;
     font-size: 1.1em;
   }
+  .recharge-shell{
+    text-align: center;
+  }
+  @keyframes bounce-in {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
   .recharge{
+    outline: none;
+    border: none;
     margin: auto;
     position: relative;
     background-image: linear-gradient(to left, #CC6533 0%, #CC4C33 50%,#CC3433 100%);
@@ -119,9 +149,13 @@
     line-height: 2em;
     text-align: center;
     border-radius: 20px;
-    top: 10%;
+    top: 2.5em;
   }
-  .recharge-shell{
+  .recharge:active{
+    animation-name: bounce-in ;
+    animation-duration: .3s;
+  }
+  .amount-shell{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
