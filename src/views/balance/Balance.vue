@@ -2,7 +2,7 @@
     <div id="balance">
       <Header></Header>
       <div class="balanceContent">
-        <div class="text">我的余额</div>
+        <div class="text">钱包余额</div>
         <div class="remainNum">{{remain}}元</div>
         <div class="amount-shell">
           <div class="recharge-item"
@@ -10,6 +10,10 @@
                :class="{active:index===currentIndex}"
                @click="licIndex(index,item)">{{item}}
           </div>
+        </div>
+        <div class="text text-charge-way">充值方式</div>
+        <div class="chargeWay">
+          <img src="../../assets/img/alipaylogo.png"><span>支付宝支付</span><input class="alipay-radio" type="radio" name="radio" checked>
         </div>
         <div class="total">共计{{total}}</div>
         <div class="recharge-shell">
@@ -98,7 +102,7 @@
   background-image: linear-gradient(to left, #CC6533 0%, #CC4C33 50%,#CC3433 100%);
 }
   .balanceContent{
-    height: 50%;
+    height: 60%;
     width: 94%;
     background-color: white;
     top: 8%;
@@ -116,14 +120,34 @@
     margin-left: 5%;
     font-size: 2em;
   }
+  .text-charge-way{
+    position: relative;
+    top: 5%;
+  }
+  .chargeWay{
+    display: flex;
+    align-items: center;
+    top: 10%;
+    position: relative;
+  }
+  img{
+    width: 10%;
+    margin-left: 10%;
+    margin-right: 3%;
+  }
+  .alipay-radio{
+    margin-left: 40%;
+  }
   .total{
     text-align: center;
     position: relative;
-    top: 5%;
+    top: 15%;
     font-size: 1.1em;
   }
   .recharge-shell{
     text-align: center;
+    position: relative;
+    top: 20%;
   }
   @keyframes bounce-in {
     0% {
@@ -149,7 +173,6 @@
     line-height: 2em;
     text-align: center;
     border-radius: 20px;
-    top: 2.5em;
   }
   .recharge:active{
     animation-name: bounce-in ;
@@ -165,7 +188,8 @@
   }
   .recharge-item{
     height: 2em;
-    border: 1px solid #757474;
+    border: 1px solid #a8a6a6;
+    color: #686666;
     font-size: 1.3em;
     line-height: 2em;
     width: 4em;
@@ -175,5 +199,6 @@
   }
   .active{
     border-color: #cf2f05;
+    color: black;
   }
 </style>

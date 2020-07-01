@@ -7,7 +7,7 @@
       <div class="infoItem"><span class="le">支付方式</span><span class="ri">{{list.way}}</span></div>
       <div class="infoItem"><span class="le">消费时间</span><span class="ri">{{list.consumetime}}</span></div>
       <div class="infoItem"><span class="le">消费地点</span><span class="ri" v-model="list.location">{{list.location}}</span></div>
-      <div class="infoItem"><span class="le">实际支付</span><span class="ri">{{list.pay}} 元</span></div>
+      <div class="infoItem"><span class="le">实际支付</span><span class="ri">{{list.pay}}</span></div>
     </div>
     <div class="backHome">
       <button class="backHomeBtn" @click="backHome">返回</button>
@@ -28,6 +28,7 @@
       data(){
           return{
             list:{
+              val:'元',
               usetype:'烘干',
               consumestatus:'交易成功',
               way:'余额',
@@ -48,7 +49,7 @@
       created() {
           this.getTime();
           this.list.usetype=this.$store.state.type;
-          this.list.pay= this.$store.state.minute*0.1;
+          this.list.pay= this.$store.state.minute*0.1+this.list.val;
           this.list.location=this.$store.state.dormi;
           // let info=JSON.stringify(this.list);
         request({
